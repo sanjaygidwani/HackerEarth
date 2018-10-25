@@ -21,6 +21,4 @@ from django.contrib.auth import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('interactive_judge.urls')),
-    #path('add_problems/', TemplateView.as_view(template_name='add_problems.html')),
-    #path('problems/', TemplateView.as_view(template_name='problems.html')),
 ]
