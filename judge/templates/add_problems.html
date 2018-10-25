@@ -1,9 +1,98 @@
 {% extends "base.html" %}
 
-{% block title %}About | {{block.super}}{% endblock %}
+{% block title %}Add Problem | {{block.super}}{% endblock %}
 
 {% block content %}
 
-<p>About interactive problems...</p>
+<div class="container">
+
+	<p class="new-head">Add New Problem</p>
+
+	<form action="">
+
+		<div class="form-group">
+			<label for="usr">Name of the Problem:</label>
+			<input type="text" class="form-control form-control-lg" id="usr" name="username">
+		</div>
+
+		<div class="form-group">
+
+			<label for="usr">Problem Statement:</label>
+
+			<textarea name="editor1" id="editor1" rows="10" cols="80"> </textarea>
+
+			<script>
+			// Replace the <textarea id="editor1"> with a CKEditor
+			// instance, using default configuration.
+			CKEDITOR.replace('editor1');
+			</script>
+
+		</div>
+
+		<div class="form-group">
+
+			<label for="usr">Sample Input File:</label>
+
+			<div class="custom-file" id="customFile" lang="es">
+				<input type="file" class="custom-file-input" id="exampleInputFile" aria-describedby="fileHelp">
+				<label class="custom-file-label" for="exampleInputFile">
+					Choose File
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+
+			<label for="usr">Sample Output File:</label>
+
+			<div class="custom-file" id="customFile" lang="es">
+				<input type="file" class="custom-file-input" id="exampleInputFile" aria-describedby="fileHelp">
+				<label class="custom-file-label" for="exampleInputFile">
+					Choose File
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+
+			<label for="usr">Sample Explanation:</label>
+
+			<textarea name="editor1" id="editor2" rows="10" cols="80"> </textarea>
+
+			<script>
+			// Replace the <textarea id="editor1"> with a CKEditor
+			// instance, using default configuration.
+			CKEDITOR.replace('editor2');
+			</script>
+
+		</div>
+
+		<div class="form-group">
+
+			<label for="usr">Interactor File:</label>
+
+			<div class="custom-file" id="customFile" lang="es">
+				<input type="file" class="custom-file-input" id="exampleInputFile" aria-describedby="fileHelp">
+				<label class="custom-file-label" for="exampleInputFile">
+					Choose File
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="usr">Time Limit:</label>
+			<input type="text" class="form-control form-control-lg" id="usr" name="username">
+		</div>
+
+		<div class="form-group">
+			<label for="usr">Memory Limit:</label>
+			<input type="text" class="form-control form-control-lg" id="usr" name="username">
+		</div>
+
+		<button type="submit" class="btn btn-primary">Submit</button>
+
+	</form>
+
+</div>
 
 {% endblock %}
