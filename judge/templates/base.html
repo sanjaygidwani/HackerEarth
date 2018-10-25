@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang=en>
+
+<head>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>{% block title %}Interactive Online Judge - HackerEarth{% endblock %}</title>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'interactive_judge/header_footer.css' %}">
+
+</style>
+
+</head>
+
+<body>
+
+	<div class="topnav" id="myTopnav">
+		<a href="\">
+			<div>
+				<img src="{% static 'interactive_judge/logo.png' %}" width="150" height="35">
+			</div>
+		</a>
+		<a href="\">Home</a>
+		<a href="\add_problems">Add Problems</a>
+		<a href="\problems">Practice</a>
+		<a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+
+	</div>
+
+	<script>
+		function myFunction() {
+			var x = document.getElementById("myTopnav");
+			if (x.className === "topnav") {
+				x.className += " responsive";
+			} else {
+				x.className = "topnav";
+			}
+		}
+	</script>
+
+	{% block content %} {% endblock %}
+
+</body>
+
+</html>
