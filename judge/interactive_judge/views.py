@@ -51,8 +51,6 @@ def problem_submit(request,pk):
 	sub.pid = problem.id
 	sub.save()
 	user_solution = request.FILES['user_solution']
-	while x in user_solution:
-		print(x)
 	testcases = TestCase.objects.filter(pid=problem.id)
 	type = problem.type
 	prob_sub = ProblemSubmission()
