@@ -30,49 +30,63 @@ class HomeView(TemplateView):
 
 '''def problem_new(request):
 
-	#create new problem
+    #create new problem
 
 def problem_edit(request,pk):
 
-	#editing existing problem`
-	
+    #editing existing problem`
+    
 '''
 
 def problem_load(request,pk):
 
-	problem = get_object_or_404(Problems, pk=pk)
-	return render(request,'problem_load.html',{'problem':problem})
+    problem = get_object_or_404(Problems, pk=pk)
+    return render(request,'problem_load.html',{'problem':problem})
 
 def problem_submit(request,pk):
 
-	problem = get_object_or_404(Problems, pk=pk)
-	sub = Submissions()
-	sub.username = request.user
-	sub.pid = problem.id
-	sub.save()
-	user_solution = request.FILES['user_solution']
-	testcases = TestCase.objects.filter(pid=problem.id)
-	type = problem.type
-	prob_sub = ProblemSubmission()
-	json_response = {}
-	ind=0
-	for i in testcases:
-		# function call to get verdict and all other values from system
-		cxt = {
-			'id': problem.id, 'type': type, 'userinputfile':i.testfile_user, 'interactorinputfile':i.testfile_interactor,'usercode':user_solution,
-		}
-		obj = execute_interactive_testcase(cxt)
-		prob_sub.pid = problem.id
-		prob_sub.sid = sub.id
-		prob_sub.memory = obj['memory']
-		prob_sub.time = obj['time']
-		prob_sub.verdict = obj['verdict']
-		prob_sub.testid = i.id
-		prob_sub.save()
-		json_response['ind':obj]
-		ind+=1
+    if request.method == 'POST':
 
-	return JsonResponse(json_response)
+        problem = get_object_or_404(Problems, pk=pk)
+        sub = Submissions()
+        sub.username = request.user
+        print(sub.username,type(pk))
+        sub.pid = problem
+        sub.save()
+        user_solution = request.FILES['user_solution']
+
+
+        fs = FileSystemStorage()
+        storage_path = settings.BASE_DIR + \
+            "/interactive_judge/media/problem_tests/" + str(pk)+"/"+str(sub.id)
+        subprocess.call("mkdir " + storage_path, shell=True)
+        fs.save(storage_path + "/user_solution", user_solution)
+        path_to_user_sol = storage_path + "/user_solution"
+        #prob_details.interactor = storage_path + "/interactor"
+
+        testcases = TestCase.objects.filter(pid=problem.id)
+        ptype = problem.input_type
+        prob_sub = ProblemSubmission()
+        json_response = {}
+        ind=0
+        for i in testcases:
+            # function call to get verdict and all other values from system
+            cxt = {
+                'id': problem.id, 'type': ptype, 'userinputfile':i.testfile_user, 'interactorinputfile':i.testfile_interactor,
+                'path_to_user_sol':path_to_user_sol,
+            }
+            obj = execute_interactive_testcase(cxt)
+            prob_sub.pid = problem
+            prob_sub.sid = sub
+            prob_sub.memory = obj['memory']
+            prob_sub.time = obj['time']
+            prob_sub.verdict = obj['verdict']
+            prob_sub.testid = i
+            prob_sub.save()
+            json_response[ind] = obj
+            ind+=1
+
+        return JsonResponse(json_response)
 
 
 
@@ -85,7 +99,6 @@ def practice(request):
     return render(request, 'problem_list.html', {'problems': problems})
 
 
-# '''
 
 def new_problem(request):
     # if this is a POST request we need to process the form data

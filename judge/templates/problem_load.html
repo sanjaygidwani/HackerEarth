@@ -4,26 +4,23 @@
 
 {% block content %}
 
-<div class= "container">
-	<p class="new-head"> </p>
-	<p> </p>
 
-<div id="editor">
-function foo(items) {
-    var x = "All this is syntax highlighted";
-    return x;
-}
-</div>
+<div class="container">
+    <form action="{% url 'submit' problem.id %}" method="POST" enctype='multipart/form-data'>
+		{% csrf_token %}
 
+		<div class="form-group">
+			<label for="usr">Solution File:</label>
+			<div class="custom-file" id="customFile" lang="es">
 
-<script>
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.session.setMode("ace/mode/javascript");
-</script>
-
-
-
+				<input type="file" class="custom-file-input" name = "user_solution" id="user_solution" aria-describedby="fileHelp" value="upload" required/>
+				<label class="custom-file-label" for="solutionFile">
+					Choose File
+				</label>
+			</div>
+		</div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </div>
 
 {% endblock %}

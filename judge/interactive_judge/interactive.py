@@ -7,7 +7,7 @@ import subprocess
     Returns 4 if the veriict is CEI - Interactor
     Returns 5 if there is problem in the judge - SE Server Error
 '''
-def execute_interactive_testcase(info):
+def execute_interactive_testcase_(info):
     
     cmd_make_pipes = "mkfifo pipe1 pipe2"
     pipe_gen_status = subprocess.call(cmd_make_pipes , shell = True)
@@ -49,3 +49,8 @@ def execute_interactive_testcase(info):
     executables_remove_status = subprocess.call(cmd_remove_executables , shell = True)
     if executables_remove_status != 0:
         return 5
+
+def execute_interactive_testcase(info):
+    final_result = {"verdict" : 0 , "time" : 0 , "memory" : 1024}
+    final_result["verdict"] = execute_interactive_testcase_(info)
+    return final_result
