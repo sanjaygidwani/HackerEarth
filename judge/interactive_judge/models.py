@@ -20,7 +20,7 @@ class Problems(models.Model):
     prob_title = models.CharField(max_length=100)
     time_limit = models.IntegerField(default = 1)
     memory_limit = models.IntegerField(default = 256)
-    type = models.IntegerField(choices=TYPE_CHOICES,default=NOTHING,)
+    input_type = models.IntegerField(choices=TYPE_CHOICES,default=NOTHING,)
 
 class Submissions(models.Model):
     username = models.ForeignKey('auth.User',on_delete= models.CASCADE)

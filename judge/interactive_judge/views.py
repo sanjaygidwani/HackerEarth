@@ -3,7 +3,10 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
-from .models import Problems,TestCase
+from .models import Problems,TestCase,Submissions,ProblemSubmission
+from .interactive import execute_interactive_testcase
+from django.http import JsonResponse
+
 
 # Create your views here.
 
@@ -29,17 +32,45 @@ def problem_edit(request,pk):
 	
 '''
 
-def problem_submit(request,pk):
-	problem = get_object_or_404(Problems,pk=pk)
-	print(problem)
-	testcases = TestCase.objects.filter(pid=problem.id)
-	type=problem.type
-	for i in testcases:
-		#function call to get verdict and all other values from system
-		function_call(type,i.testfile_user,i.testfile_interactor)
+def problem_load(request,pk):
 
-	#calling template for submission page
-	return render(request,'problem_submit.html',context)
+	problem = get_object_or_404(Problems, pk=pk)
+	return render(request,'problem_load.html',{'problem':problem})
+
+def problem_submit(request,pk):
+
+	problem = get_object_or_404(Problems, pk=pk)
+	sub = Submissions()
+	sub.username = request.user
+	sub.pid = problem.id
+	sub.save()
+	user_solution = request.FILES['user_solution']
+	while x in user_solution:
+		print(x)
+	testcases = TestCase.objects.filter(pid=problem.id)
+	type = problem.type
+	prob_sub = ProblemSubmission()
+	json_response = {}
+	ind=0
+	for i in testcases:
+		# function call to get verdict and all other values from system
+		cxt = {
+			'id': problem.id, 'type': type, 'userinputfile':i.testfile_user, 'interactorinputfile':i.testfile_interactor,'usercode':user_solution,
+		}
+		obj = execute_interactive_testcase(cxt)
+		prob_sub.pid = problem.id
+		prob_sub.sid = sub.id
+		prob_sub.memory = obj['memory']
+		prob_sub.time = obj['time']
+		prob_sub.verdict = obj['verdict']
+		prob_sub.testid = i.id
+		prob_sub.save()
+		json_response['ind':obj]
+		ind+=1
+
+	return JsonResponse(json_response)
+
+
 
 	#handling submission request on a problem
 
