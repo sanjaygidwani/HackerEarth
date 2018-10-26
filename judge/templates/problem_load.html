@@ -24,7 +24,7 @@
         $.ajax({
             type: frm.attr('method'),
             url: frm.attr('action'),
-            data: frm.serialize(),
+            data: {frm.serialize() , csrfmiddlewaretoken: '{{ csrf_token }}'},
             success: function (data) {
                 $("#SOME-DIV").html(data);
             },
@@ -35,12 +35,12 @@
         return false;
     });
 </script>
-<form id = "submit_form" action="{% url 'submit' problem.id %}" method="post">
+<form id = "submit_form" action="{% url 'submit' problem.id %}" method="post" enctype="multipart/form-data">
 	{% csrf_token %}
 	<div class="container">
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</div>
-	<input id = "code" name = "code" type="text" style="visibility: hidden;"/>
+	<input id = "code" name = "user_solution" type="text" style="visibility: hidden;"/>
 </form>
 <script>
     var editor = ace.edit("editor");

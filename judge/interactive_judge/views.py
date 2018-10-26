@@ -53,16 +53,18 @@ def problem_submit(request,pk):
         print(sub.username,type(pk))
         sub.pid = problem
         sub.save()
-        user_solution = request.FILES['user_solution']
+        user_solution = request.POST['user_solution']
 
 
-        fs = FileSystemStorage()
+        #fs = FileSystemStorage()
         storage_path = settings.BASE_DIR + \
             "/interactive_judge/media/problem_tests/" + str(pk)+"/"+str(sub.id)
         subprocess.call("mkdir " + storage_path, shell=True)
-        fs.save(storage_path + "/user_solution", user_solution)
+        #fs.save(storage_path + "/user_solution", user_solution)
         path_to_user_sol = storage_path + "/user_solution"
         #prob_details.interactor = storage_path + "/interactor"
+        with open(path_to_user_sol, 'w') as f:
+            f.write(user_solution)
 
         testcases = TestCase.objects.filter(pid=problem.id)
         ptype = problem.input_type
