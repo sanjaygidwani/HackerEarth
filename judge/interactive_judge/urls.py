@@ -4,7 +4,8 @@ from django.views.generic import TemplateView
 from interactive_judge.views import HomeView
 
 urlpatterns = [
-	path('',HomeView.as_view()),
+	path('',HomeView.as_view(),name='home'),
 	path('add_problems/', TemplateView.as_view(template_name='add_problems.html')),
-    path('problems/', TemplateView.as_view(template_name='problems.html')),
+	path('practice/', views.practice,name='practice'),
+	path('submit/<int:pk>',views.problem_submit,name='submit'),
 ]

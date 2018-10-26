@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content%}
+    {% for problem in problems %}
+        <div>
+            <h3><a href="{% url 'submit' pk=problem.pk %}">{{ problem.prob_title }}</a></h3>
+        </div>
+    {% endfor %}
+{%endblock%}

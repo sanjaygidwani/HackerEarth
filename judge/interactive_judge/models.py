@@ -1,10 +1,10 @@
 from django.db import models
 
 class Problems(models.Model):
-    NOTHING = '0'
-    USERINPUT = '1'
-    INTERACTORINPUT = '2'
-    BOTH ='3'
+    NOTHING = 0
+    USERINPUT = 1
+    INTERACTORINPUT = 2
+    BOTH = 3
     TYPE_CHOICES = (
         (NOTHING, 'Nothing'),
         (USERINPUT, 'UserInput'),
@@ -28,20 +28,20 @@ class Submissions(models.Model):
 
 class TestCase(models.Model):
     pid = models.ForeignKey('interactive_judge.Problems', on_delete=models.CASCADE)
-    testfile_user = models.CharField(max_length=100,default=None)
-    testfile_interactor = models.CharField(max_length=100,default = None)
+    testfile_user = models.CharField(max_length=100,default=None,null=True,blank=True)
+    testfile_interactor = models.CharField(max_length=100,default = None,null=True,blank=True)
     score = models.IntegerField(default=0)
 
 class ProblemSubmission(models.Model):
-    AC = '0'
-    WA = '1'
-    TLE = '2'
+    AC = 0
+    WA = 1
+    TLE = 2
     # Compilation error in user code
-    CEU = '3'
+    CEU = 3
     # Compilation error in interactor code
-    CEI = '4'
+    CEI = 4
     # Server error (pipe not being created etc.)
-    SE = '5'
+    SE = 5
     VERDICT_POSSIBILITIES = (
         (AC, 'Ac'),
         (WA, 'Wa'),
