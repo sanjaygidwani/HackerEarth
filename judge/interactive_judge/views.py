@@ -73,7 +73,7 @@ def problem_submit(request,pk):
             # function call to get verdict and all other values from system
             cxt = {
                 'id': problem.id, 'type': ptype, 'userinputfile':i.testfile_user, 'interactorinputfile':i.testfile_interactor,
-                'path_to_user_sol':path_to_user_sol,
+                'path_to_user_sol':path_to_user_sol, 'sid':sub.id,
             }
             obj = execute_interactive_testcase(cxt)
             prob_sub.pid = problem
