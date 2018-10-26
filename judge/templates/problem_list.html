@@ -1,9 +1,74 @@
 {% extends 'base.html' %}
 
 {% block content%}
+
+
+<div class="container">
+  <p class="new-head">Practice Problems</p> 
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Tag</th>
+        <th>Difficulty</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Find the Maximum</td>
+        <td>Arrays</td>
+        <td>Easy</td>
+      </tr>
+      <tr>
+        <td>Hectic Game</td>
+        <td>Greedy</td>
+        <td>Easy</td>
+      </tr>
+      <tr>
+        <td>Minimum Queue Queries</td>
+        <td>Multiset</td>
+        <td>Easy</td>
+      </tr>
+      <tr>
+        <td>Challenging Track</td>
+        <td>Implementation</td>
+        <td>Easy</td>
+      </tr>
+      <tr>
+        <td>Minimum Sum Subarray</td>
+        <td>Arrays</td>
+        <td>Easy</td>
+      </tr>
+      <tr>
+        <td>Destined Candy Game</td>
+        <td>Deque</td>
+        <td>Easy</td>
+      </tr>
+      <tr>
+        <td>Chocolate Day</td>
+        <td>Greedy</td>
+        <td>Medium</td>
+      </tr>
+      <tr>
+        <td>String Paradigm</td>
+        <td>Dynamic Programming</td>
+        <td>Medium</td>
+      </tr>
+      <tr>
+        <td>Array Transformation</td>
+        <td>DSU</td>
+        <td>Medium</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div style="margin:30px"></div>
+<!--
+
     {% for problem in problems %}
         <div>
             <h3><a href="{% url 'submit' pk=problem.pk %}">{{ problem.prob_title }}</a></h3>
         </div>
     {% endfor %}
+  -->
 {%endblock%}

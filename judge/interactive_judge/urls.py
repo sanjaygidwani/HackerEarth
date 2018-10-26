@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.views.generic import TemplateView
 from interactive_judge.views import HomeView
@@ -9,4 +9,5 @@ urlpatterns = [
 	path('practice/', views.practice,name='practice'),
 	path('problem/<int:pk>',views.problem_load,name='problem_load'),
 	path('submit/<int:pk>',views.problem_submit,name='submit'),
+	path('problem_load/', include('problem_load.urls'))
 ]
