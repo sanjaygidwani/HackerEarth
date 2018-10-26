@@ -54,3 +54,29 @@ def practice(request):
 	
 #'''
 
+def new_problem(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        #form = NameForm(request.POST)
+        # check whether it's valid:
+        prob_title = request.POST['name']
+        prob_description = request.POST['problem_statement']
+        sample_exp = request.POST['explanation']
+        time_limit = request.POST['time_limit']
+        memory_limit = request.POST['memory_limit']
+
+        print(prob_title)
+        print(prob_description)
+
+        return redirect('home')
+        #if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+        #return HttpResponseRedirect('/thanks/')
+
+    # if a GET (or any other method) we'll create a blank form
+    '''else:
+        form = NameForm()'''
+    return render(request, 'add_problems.html')
