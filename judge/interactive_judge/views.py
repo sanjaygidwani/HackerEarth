@@ -1,26 +1,37 @@
-from django.shortcuts import render,get_object_or_404,redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
+<<<<<<< Updated upstream
 from .models import Problems,TestCase,Submissions,ProblemSubmission
 from .interactive import execute_interactive_testcase
 from django.http import JsonResponse
 
 
+=======
+from .models import Problems, TestCase
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from interactive_judge.models import Problems
+import subprocess
+>>>>>>> Stashed changes
 # Create your views here.
 
 # class based views
+
+
 class HomeView(TemplateView):
 
-	template_name = 'home.html'
+    template_name = 'home.html'
 
-	def get_context_data(self, *args, **kwargs):
-		context = super(HomeView, self).get_context_data(*args, **kwargs)
-		context = {
-			"html_var": True
-		}
-		return context
+    def get_context_data(self, *args, **kwargs):
+        context = super(HomeView, self).get_context_data(*args, **kwargs)
+        context = {
+            "html_var": True
+        }
+        return context
+
 
 '''def problem_new(request):
 
@@ -28,10 +39,11 @@ class HomeView(TemplateView):
 
 def problem_edit(request,pk):
 
-	#editing existing problem
+	#editing existing problem`
 	
 '''
 
+<<<<<<< Updated upstream
 def problem_load(request,pk):
 
 	problem = get_object_or_404(Problems, pk=pk)
@@ -71,43 +83,57 @@ def problem_submit(request,pk):
 	return JsonResponse(json_response)
 
 
+=======
 
-	#handling submission request on a problem
+def problem_submit(request, pk):
+    problem = get_object_or_404(Problems, pk=pk)
+    print(problem)
+    testcases = TestCase.objects.filter(pid=problem.id)
+    type = problem.type
+    for i in testcases:
+        # function call to get verdict and all other values from system
+        function_call(type, i.testfile_user, i.testfile_interactor)
 
-	
+    # calling template for submission page
+    return render(request, 'problem_submit.html', context)
+
+    # handling submission request on a problem
+>>>>>>> Stashed changes
+
+
 def practice(request):
 
-	#display all problems
-	problems = Problems.objects.all()
-	return render(request,'problem_list.html',{'problems':problems})
+    # display all problems
+    problems = Problems.objects.all()
+    return render(request, 'problem_list.html', {'problems': problems})
 
 
-	
-#'''
+# '''
 
 def new_problem(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        #form = NameForm(request.POST)
-        # check whether it's valid:
-        prob_title = request.POST['name']
-        prob_description = request.POST['problem_statement']
-        sample_exp = request.POST['explanation']
-        time_limit = request.POST['time_limit']
-        memory_limit = request.POST['memory_limit']
+        prob_details = Problems()
+        prob_details.prob_title = request.POST['name']
+        prob_details.prob_description = request.POST['problem_statement']
+        prob_details.sample_exp = request.POST['explanation']
+        prob_details.time_limit = request.POST['time_limit']
+        prob_details.input_type = request.POST['input_type']
+        prob_details.memory_limit = request.POST['memory_limit']
+        prob_details.save()
+        fs = FileSystemStorage()
+        storage_path = settings.BASE_DIR + \
+            "/interactive_judge/media/problem_tests/" + str(prob_details.id)
+        subprocess.call("mkdir " + storage_path, shell=True)
+        fs.save(storage_path + "/interactor", request.FILES['interactor'])
+        prob_details.interactor = storage_path + "/interactor"
 
-        print(prob_title)
-        print(prob_description)
+        fs.save(storage_path + "/sample_input", request.FILES['input_file'])
+        prob_details.sample_input = storage_path + "/sample_input"
 
-        return redirect('home')
-        #if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-        #return HttpResponseRedirect('/thanks/')
+        fs.save(storage_path + "/sample_output", request.FILES['output_file'])
+        prob_details.sample_output = storage_path + "/sample_output"
+        prob_details.save()
+        return redirect('practice')
 
-    # if a GET (or any other method) we'll create a blank form
-    '''else:
-        form = NameForm()'''
     return render(request, 'add_problems.html')

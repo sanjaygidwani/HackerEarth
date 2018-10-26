@@ -1,7 +1,10 @@
 from django.urls import path, include
 from . import views
+from django.conf import settings
 from django.views.generic import TemplateView
 from interactive_judge.views import HomeView
+from django.conf.urls.static import static
+
 
 urlpatterns = [
 	path('',HomeView.as_view(),name='home'),
@@ -9,5 +12,9 @@ urlpatterns = [
 	path('practice/', views.practice,name='practice'),
 	path('problem/<int:pk>',views.problem_load,name='problem_load'),
 	path('submit/<int:pk>',views.problem_submit,name='submit'),
+<<<<<<< Updated upstream
 	path('problem_load/', include('problem_load.urls'))
 ]
+=======
+] #+ static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)
+>>>>>>> Stashed changes
