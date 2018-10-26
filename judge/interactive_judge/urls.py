@@ -12,9 +12,4 @@ urlpatterns = [
 	path('practice/', views.practice,name='practice'),
 	path('problem/<int:pk>',views.problem_load,name='problem_load'),
 	path('submit/<int:pk>',views.problem_submit,name='submit'),
-<<<<<<< Updated upstream
-	path('problem_load/', include('problem_load.urls'))
 ]
-=======
-] #+ static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)
->>>>>>> Stashed changes

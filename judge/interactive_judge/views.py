@@ -3,19 +3,14 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
-<<<<<<< Updated upstream
 from .models import Problems,TestCase,Submissions,ProblemSubmission
 from .interactive import execute_interactive_testcase
 from django.http import JsonResponse
 
-
-=======
-from .models import Problems, TestCase
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-from interactive_judge.models import Problems
 import subprocess
->>>>>>> Stashed changes
+
 # Create your views here.
 
 # class based views
@@ -43,7 +38,6 @@ def problem_edit(request,pk):
 	
 '''
 
-<<<<<<< Updated upstream
 def problem_load(request,pk):
 
 	problem = get_object_or_404(Problems, pk=pk)
@@ -83,22 +77,7 @@ def problem_submit(request,pk):
 	return JsonResponse(json_response)
 
 
-=======
 
-def problem_submit(request, pk):
-    problem = get_object_or_404(Problems, pk=pk)
-    print(problem)
-    testcases = TestCase.objects.filter(pid=problem.id)
-    type = problem.type
-    for i in testcases:
-        # function call to get verdict and all other values from system
-        function_call(type, i.testfile_user, i.testfile_interactor)
-
-    # calling template for submission page
-    return render(request, 'problem_submit.html', context)
-
-    # handling submission request on a problem
->>>>>>> Stashed changes
 
 
 def practice(request):

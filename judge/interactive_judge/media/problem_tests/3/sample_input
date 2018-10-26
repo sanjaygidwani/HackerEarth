@@ -1,0 +1,168 @@
+Design an API driven Ticket Booking Platform
+[Problem Statement]
+
+We all have booked movie tickets using the numerous ticket booking apps/websites available today. The challenge requires the developer to think of an API‑first way of building this platform.
+
+
+ 
+
+[Tasks]
+
+Build a service that with the HTTP APIs described below. A few more points to note:
+
+• Request/Response should be in JSON format
+
+• Have your service listen for requests on localhost:9090
+
+• Use any programming language and web framework that you are comfortable with.
+
+• Storage can be either in‑memory or a database of your choice
+
+ 
+
+1. API to accept details of a movie screen.
+
+ 
+
+The API should accept and store the seat information about the given movie screen, to be consumed by other APIs. Each call will provide information about a single movie screen, thus the API would be called multiple times to add information about multiple screens.
+
+ 
+
+Request method: POST
+
+Request URI: http://localhost:9090/screens
+
+Request body (example):
+
+ 
+
+{ "name":"inox", "seatInfo": { "A": { "numberOfSeats": 10, "aisleSeats": [0, 5 ,6, 9] }, "B": { "numberOfSeats": 15, "aisleSeats": [0, 5 ,6, 9] }, "D": { "numberOfSeats": 20, "aisleSeats": [0, 5 ,6, 9] } } }
+
+
+The payload for this API describes the layout of a theatre screen (for simplicity, lets assume all theatres are single screen theatres) ‑ it contains the rows (A, B, D) and the number of seats each row contains as well as the aisle seats marked out.
+
+ 
+
+2. API to reserve tickets for given seats in a given screen
+
+The API should accept the screen name and a set of seats, and mark them as reserved (assume we have a logged in user).
+
+ 
+
+Request method: POST
+
+Request URI: http://localhost:9090/screens/{screen‑name}/reserve
+
+Request body (example):
+
+ 
+
+{ "seats": { "B": [1, 2], "C": [ 6, 7] } }
+
+ 
+
+Return a success status (HTTP status 200) if seats are available and successfully reserved, or an error status otherwise (an HTTP status other than 200).
+
+
+ 
+
+3. API to get the available seats for a given screen
+
+ 
+
+Request method: GET
+
+Request URI: http://localhost:9090/screens/{screen‑name}/seats?status=unreserved
+
+Response body (example):
+
+ 
+
+{ "seats": { "A": [0, 1 ,2 ,6, 7, 8 , 9], "B": [0, 8 , 9], "D": [] } }
+
+ 
+
+4. API to get information of available tickets at a given position
+
+ 
+
+This API is designed to power an intuitive user interface (developing a user interface is optional) where a user can specify the number of seats she wants and a choice of seat. The API returns an optimal choice of seats for her
+
+ 
+
+Request method: GET
+
+Request URI: http://localhost:9090/screens/{screen‑name}/seats?numSeats={x}&choice= {seat‑row‑and‑number}
+
+Response body (example):
+
+{ "availableSeats": { "A": [3, 4] } }
+
+ 
+
+GET http://localhost:9090/screens/{screen‑name}/seats?numSeats=2&choice=A4
+
+Can return
+
+{ "availableSeats": { "A": [3, 4] } } OR { "availableSeats": { "A": [4, 5] } }
+
+
+GET http://localhost:9090/screens/{screen‑name}/seats?numSeats=3&choice=A4
+
+Can return
+
+[ A2, A3, A4 ] OR [ A3, A4, A5 ]
+
+ 
+
+Can return
+
+{ "availableSeats": { "A": [2, 3, 4] } }
+
+ 
+
+OR
+
+ 
+
+{ "availableSeats": { "A": [3, 4, 5] } }
+
+
+ 
+
+GET /screens/{name}/seats?numSeats=4&choice=A4
+
+ 
+
+Returns an error since we don't have 4 contigous seats for the user (A5 is an isle seat)
+
+ 
+
+Want to impress us more?
+
+ 
+
+Try taking a shot at any (or every) of the following bonus features Design a UI for the user (More brownie points for integrating with a social login like Facebook / Twitter / Google )
+
+1. Handle concurrency for ticket reservations (since the next Rajnikanth movie is always round the corner)
+
+2. Host your application ‑ AWS, GCP, Azure, Heroku or anywhere else! (use a secure connection and take care of basic aspects of security)
+
+3. Host your application ‑ AWS, GCP, Azure, Heroku or anywhere else! (use a secure connection and take care of basic aspects of security)
+
+
+ 
+
+[Ideal Stack]
+
+-- You are free to use any stack.
+
+ 
+
+[Deliverables]
+
+-- Production level code which is well indented, commented and documented.
+
+-- Should follow the coding best practices.
+
+-- Zip all your Source code, Deployment instructions, Screenshots and upload.
